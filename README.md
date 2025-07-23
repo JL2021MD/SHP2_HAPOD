@@ -1,2 +1,2 @@
 # SHP2_HAPOD
-Data to be uploaded soon.
+Scripts and data uploaded, readme file to be completed soon.
