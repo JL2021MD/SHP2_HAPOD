@@ -1,0 +1,7 @@
+parm complex.gas.prmtop
+trajin 2-10.align.nc
+reference complex.gas.rst7
+
+rmsd SHP2 reference :1-521@CA out RMSDresults.csv nofit
+rmsd ligand reference :522&!@H= out RMSDresults.csv nofit
+
