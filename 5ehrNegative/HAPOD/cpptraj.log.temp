@@ -1,0 +1,90 @@
+
+CPPTRAJ: Trajectory Analysis. V4.25.6
+    ___  ___  ___  ___
+     | \/ | \/ | \/ | 
+    _|_/\_|_/\_|_/\_|_
+
+| Date/time: 02/24/25 18:25:25
+| Available memory: 5.881 GB
+
+INPUT: Reading input from 'cpptraj.protein.in'
+  [parm ../Tleap/complex.gas.prmtop]
+	Reading '../Tleap/complex.gas.prmtop' as Amber Topology
+	Radius Set: H(N)-modified Bondi radii (mbondi2)
+Warning: Amber topology flag 'CMAP_COUNT' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_RESOLUTION' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_01' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_02' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_03' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_04' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_05' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_06' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_07' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_08' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_09' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_10' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_11' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_12' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_13' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_PARAMETER_14' is unrecognized and will be skipped.
+Warning: Amber topology flag 'CMAP_INDEX' is unrecognized and will be skipped.
+  [trajin rep.c0.pdb]
+	Reading 'rep.c0.pdb' as PDB
+	Read CRYST1 info from PDB: a=82.722 b=82.722 c=82.722 alpha=109.47 beta=109.47 gamma=109.47
+Warning: Low precision truncated octahedron angles detected (109.47 vs 109.471).
+Warning:   If desired, the 'box' command can be used during processing
+Warning:   to set higher-precision angles.
+Warning: Trajectory box type is 'Trunc. Oct.' but topology box type is 'None'.
+Warning: Setting topology box information from trajectory.
+  [strip :522]
+    STRIP: Stripping atoms in mask [:522]
+  [trajout protein.pdb]
+	Writing 'protein.pdb' as PDB
+---------- RUN BEGIN -------------------------------------------------
+
+PARAMETER FILES (1 total):
+ 0: complex.gas.prmtop, 8370 atoms, 522 res, box: Trunc. Oct., 2 mol
+
+INPUT TRAJECTORIES (1 total):
+ 0: 'rep.c0.pdb' is a PDB file, Parm complex.gas.prmtop (Trunc. Oct. box) (reading 1 of 1)
+  Coordinate processing will occur on 1 frames.
+
+OUTPUT TRAJECTORIES (1 total):
+  'protein.pdb' (1 frames) is a PDB file
+
+BEGIN TRAJECTORY PROCESSING:
+.....................................................
+ACTION SETUP FOR PARM 'complex.gas.prmtop' (1 actions):
+  0: [strip :522]
+	Stripping 35 atoms.
+	Stripped topology: 8335 atoms, 521 res, box: Trunc. Oct., 1 mol
+Warning: No PDB space group specified.
+.....................................................
+ACTIVE OUTPUT TRAJECTORIES (1):
+  protein.pdb (coordinates, box)
+----- rep.c0.pdb (1-1, 1) -----
+	Read CRYST1 info from PDB: a=82.722 b=82.722 c=82.722 alpha=109.47 beta=109.47 gamma=109.47
+100% Complete.
+
+Read 1 frames and processed 1 frames.
+TIME: Avg. throughput= 45.6413 frames / second.
+
+ACTION OUTPUT:
+TIME: Analyses took 0.0000 seconds.
+
+RUN TIMING:
+TIME:		Init               : 0.0000 s (  0.02%)
+TIME:		Trajectory Process : 0.0219 s ( 98.60%)
+TIME:		Action Post        : 0.0000 s (  0.00%)
+TIME:		Analysis           : 0.0000 s (  0.00%)
+TIME:		Data File Write    : 0.0000 s (  0.00%)
+TIME:		Other              : 0.0003 s (  0.01%)
+TIME:	Run Total 0.0222 s
+---------- RUN END ---------------------------------------------------
+TIME: Total execution time: 0.0375 seconds.
+--------------------------------------------------------------------------------
+To cite CPPTRAJ use:
+Daniel R. Roe and Thomas E. Cheatham, III, "PTRAJ and CPPTRAJ: Software for
+  Processing and Analysis of Molecular Dynamics Trajectory Data". J. Chem.
+  Theory Comput., 2013, 9 (7), pp 3084-3095.
+
