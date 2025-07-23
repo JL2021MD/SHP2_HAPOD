@@ -1,0 +1,76 @@
+EXPDTA    THEORETICAL MODEL, MODELLER 10.6 2025/02/22 23:48:59
+REMARK   6 MODELLER OBJECTIVE FUNCTION:       314.6216
+REMARK   6 MODELLER BEST TEMPLATE % SEQ ID: 100.000
+REMARK   6 GA341 score: 1.00000
+REMARK   6 Normalized DOPE score: -1.70601
+HETATM    1  C1  5OD A 523      21.051  40.736   4.933  1.00  0.00           C
+HETATM    2  C3  5OD A 523      22.304  41.987   3.389  1.00  0.00           C
+HETATM    3  C11 5OD A 523      26.886  41.393   3.817  1.00  0.00           C
+HETATM    4  C12 5OD A 523      27.197  42.738   3.044  1.00  0.00           C
+HETATM    5  C13 5OD A 523      25.866  43.502   2.724  1.00  0.00           C
+HETATM    6  C14 5OD A 523      24.759  42.612   2.101  1.00  0.00           C
+HETATM    7  C15 5OD A 523      19.432  40.762   6.864  1.00  0.00           C
+HETATM    8  C16 5OD A 523      18.137  40.596   7.370  1.00  0.00           C
+HETATM    9  C17 5OD A 523      17.085  40.187   6.524  1.00  0.00           C
+HETATM   10  C18 5OD A 523      17.352  39.899   5.169  1.00  0.00           C
+HETATM   11  C19 5OD A 523      18.648  40.110   4.658  1.00  0.00           C
+HETATM   12  N2  5OD A 523      21.139  41.731   4.009  1.00  0.00           N
+HETATM   13  C4  5OD A 523      23.431  41.172   3.609  1.00  0.00           C
+HETATM   14  N5  5OD A 523      23.342  40.180   4.545  1.00  0.00           N
+HETATM   15  C6  5OD A 523      22.183  39.926   5.201  1.00  0.00           C
+HETATM   16  C8  5OD A 523      19.696  40.540   5.509  1.00  0.00           C
+HETATM   17  N9  5OD A 523      24.609  41.420   2.963  1.00  0.00           N
+HETATM   18  C10 5OD A 523      25.767  40.553   3.126  1.00  0.00           C
+HETATM   19  H3  5OD A 523      22.376  42.827   2.714  1.00  0.00           H
+HETATM   20 H112 5OD A 523      27.796  40.795   3.859  1.00  0.00           H
+HETATM   21 H113 5OD A 523      26.573  41.633   4.833  1.00  0.00           H
+HETATM   22 H132 5OD A 523      26.093  44.306   2.024  1.00  0.00           H
+HETATM   23 H133 5OD A 523      25.484  43.940   3.646  1.00  0.00           H
+HETATM   24 H142 5OD A 523      23.819  43.162   2.060  1.00  0.00           H
+HETATM   25 H143 5OD A 523      25.052  42.307   1.097  1.00  0.00           H
+HETATM   26  H17 5OD A 523      16.081  40.095   6.911  1.00  0.00           H
+HETATM   27  H18 5OD A 523      16.569  39.520   4.529  1.00  0.00           H
+HETATM   28  H19 5OD A 523      18.844  39.943   3.609  1.00  0.00           H
+HETATM   29 H102 5OD A 523      26.111  40.204   2.152  1.00  0.00           H
+HETATM   30 H103 5OD A 523      25.505  39.700   3.752  1.00  0.00           H
+HETATM   31 H122 5OD A 523      27.711  42.506   2.111  1.00  0.00           H
+HETATM   32 H123 5OD A 523      27.836  43.369   3.661  1.00  0.00           H
+HETATM   33  H15 5OD A 523      20.232  41.063   7.524  1.00  0.00           H
+HETATM   34  H16 5OD A 523      17.942  40.782   8.416  1.00  0.00           H
+HETATM   35  H6  5OD A 523      22.123  39.119   5.916  1.00  0.00           H
+CONECT    1   15   16   12
+CONECT   18    3   17   29   30
+CONECT    3    4   20   21   18
+CONECT    4    5    3   31   32
+CONECT    5    6    4   22   23
+CONECT    6    5   17   24   25
+CONECT    7    8   16   33
+CONECT    8    7    9   34
+CONECT    9    8   10   26
+CONECT   10   11    9   27
+CONECT   11   16   10   28
+CONECT    2   19   12   13
+CONECT   13    2   17   14
+CONECT   15    1   14   35
+CONECT   16    7   11    1
+CONECT   29   18
+CONECT   30   18
+CONECT   20    3
+CONECT   21    3
+CONECT   31    4
+CONECT   32    4
+CONECT   22    5
+CONECT   23    5
+CONECT   24    6
+CONECT   25    6
+CONECT   33    7
+CONECT   34    8
+CONECT   26    9
+CONECT   27   10
+CONECT   28   11
+CONECT   19    2
+CONECT   35   15
+CONECT   12    2    1
+CONECT   14   15   13
+CONECT   17    6   18   13
+END
