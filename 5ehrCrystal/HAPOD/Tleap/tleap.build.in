@@ -1,0 +1,40 @@
+#### tleap -f tleap.build.in
+
+
+source leaprc.protein.ff19SB
+source leaprc.gaff2
+
+source leaprc.water.opc
+loadamberparams /home/james/BoMD/5ehrCrystal/HAPOD/Tleap/frcmod.ions1lm_126_iod_opc
+
+set default PBradii mbondi2
+
+rec=loadpdb ../5ehrProtein.pdb
+
+###Load Ligand frcmod/prep
+
+loadamberparams ../ligand.frcmod
+lig=loadmol2 ../ligand_gaff2.mol2
+
+gascomplex= combine {rec lig}
+
+savepdb gascomplex complex.gas.pdb
+saveamberparm gascomplex complex.gas.prmtop complex.gas.rst7
+
+solvcomplex= combine {rec lig}
+solvateoct solvcomplex OPCBOX 5
+
+###Neutralize system (it will add either Na or Cl depending on net charge)
+addions solvcomplex Cl- 0
+addions solvcomplex Na+ 0
+
+###Write solvated pdb file
+savepdb solvcomplex complex.opc.pdb
+
+charge solvcomplex
+
+###Write Solvated topology and coord file
+saveamberparm solvcomplex complex.opc.prmtop complex.opc.rst7
+
+quit
+
