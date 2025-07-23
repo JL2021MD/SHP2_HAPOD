@@ -1,0 +1,673 @@
+
+          -------------------------------------------------------
+          Amber 20 PMEMD                              2020
+          -------------------------------------------------------
+
+| PMEMD implementation of SANDER, Release 18
+
+|  Compiled date/time: Sun Feb 23 20:58:50 2025
+| Run on 02/28/2025 at 08:43:54
+
+|   Executable path: pmemd.cuda
+| Working directory: /home/jliao/botemp/23/HAPOD/PMEMD2
+|          Hostname: Unknown
+  [-O]verwriting output
+
+File Assignments:
+|   MDIN: 04.equil.mdin                                                         
+|  MDOUT: 04.equil.mdout                                                        
+| INPCRD: 03.equil.rst7                                                         
+|   PARM: complex.HMR.opc.prmtop                                                
+| RESTRT: 04.equil.rst7                                                         
+|   REFC: 03.equil.rst7                                                         
+|  MDVEL: mdvel                                                                 
+|   MDEN: mden                                                                  
+|  MDCRD: 04.equil.trj                                                          
+| MDINFO: 04.equil.info                                                         
+|  MDFRC: mdfrc                                                                 
+
+
+ Here is the input file:
+
+ MD simualation                                                                
+&cntrl                                                                         
+ imin=0,           ! Perform MD                                                
+ nstlim=20000      ! Number of MD steps                                        
+ ntb=2,            ! 2=Constant Pressure, default when ntp>0. Unit cell size ch
+ igb=0,            ! 1,2,5,8=implicit solvent                                  
+ ntc=1,            ! 2=SHAKE on for bonds with hydrogen (SHAKE restricts bond s
+ dt=0.001,         ! Timestep (ps)                                             
+ ntp=1,            ! 1=Isotropic pressure scaling (0=no scaling) (should be 1 o
+ barostat=2        ! 1=Berendsen barostat, 2=montecarlo thermostat, p339 amber 
+ taup=0.5          ! Pressure relaxtion time (ps)                              
+ ntf=1,            ! 2=No force evaluation for bonds with hydrogen (1=complete 
+ ntt=3,            ! Langevin thermostat (0=constant total energy, p337 manual)
+ gamma_ln=2.0      ! Collision Frequency for thermostat                        
+ ig=-1,            ! Random seed for thermostat                                
+ temp0=310         ! Simulation temperature (K)                                
+ ntwx= 10000,        ! Write to trajectory file every ntwx steps               
+ ntpr= 1000,        ! Print to mdout every ntpr steps                          
+ ntwr= 10000,        ! Write a restart file every ntwr steps                   
+ cut=8,          ! Nonbonded cutoff in Angstroms                               
+ ntr=0,            ! Restraints OFF and next 2 lines are ineffective (1=on)    
+ restraintmask=":1-111 & !@H=|:253@CCE,CCL,CAB,CCJ", ! atoms to be restrained (
+ restraint_wt=10, ! force constant for restraint                               
+ ntxo=2,           ! 1=Write coordinate file in ASCII format, 2=NetCDF         
+ ntxo=2,           ! 1=Write coordinate file in ASCII format, 2=NetCDF         
+ ioutfm=1,         ! 0=Write trajectory file in ASCII format, 1=NetCDF         
+ nmropt=1,         !                                                           
+/                                                                              
+&wt type='END'                                                                 
+/                                                                              
+                                                                               
+                                                                               
+
+
+Note: ig = -1. Setting random seed to   970792 based on wallclock time in 
+      microseconds.
+| irandom = 1, using AMBER's internal random number generator (default).
+ 
+|--------------------- INFORMATION ----------------------
+| GPU (CUDA) Version of PMEMD in use: NVIDIA GPU IN USE.
+|                    Version 18.0.0
+| 
+|                      03/25/2018
+| 
+| Implementation by:
+|                    Ross C. Walker     (SDSC)
+|                    Scott Le Grand     (nVIDIA)
+| 
+| Version 18 performance extensions by:
+|                    David Cerutti     (Rutgers)
+| 
+| Precision model in use:
+|      [SPFP] - Single Precision Forces, 64-bit Fixed Point
+|               Accumulation. (Default)
+| 
+|--------------------------------------------------------
+ 
+|----------------- CITATION INFORMATION -----------------
+|
+|    When publishing work that utilized the CUDA version
+|    of AMBER, please cite the following in addition to
+|    the regular AMBER citations:
+|
+|  - Romelia Salomon-Ferrer; Andreas W. Goetz; Duncan
+|    Poole; Scott Le Grand; Ross C. Walker "Routine
+|    microsecond molecular dynamics simulations with
+|    AMBER - Part II: Particle Mesh Ewald", J. Chem.
+|    Theory Comput., 2013, 9 (9), pp3878-3888,
+|    DOI: 10.1021/ct400314y.
+|
+|  - Andreas W. Goetz; Mark J. Williamson; Dong Xu;
+|    Duncan Poole; Scott Le Grand; Ross C. Walker
+|    "Routine microsecond molecular dynamics simulations
+|    with AMBER - Part I: Generalized Born", J. Chem.
+|    Theory Comput., 2012, 8 (5), pp1542-1555.
+|
+|  - Scott Le Grand; Andreas W. Goetz; Ross C. Walker
+|    "SPFP: Speed without compromise - a mixed precision
+|    model for GPU accelerated molecular dynamics
+|    simulations.", Comp. Phys. Comm., 2013, 184
+|    pp374-380, DOI: 10.1016/j.cpc.2012.09.022
+|
+|--------------------------------------------------------
+ 
+|------------------- GPU DEVICE INFO --------------------
+|
+|            CUDA_VISIBLE_DEVICES: not set
+|   CUDA Capable Devices Detected:      1
+|           CUDA Device ID in use:      0
+|                CUDA Device Name: NVIDIA GeForce GTX 1080
+|     CUDA Device Global Mem Size:   8110 MB
+| CUDA Device Num Multiprocessors:     20
+|           CUDA Device Core Freq:   1.73 GHz
+|
+|--------------------------------------------------------
+ 
+ 
+| Conditional Compilation Defines Used:
+| PUBFFT
+| BINTRAJ
+| CUDA
+| EMIL
+
+| Largest sphere to fit in unit cell has radius =    35.072
+
+| New format PARM file being parsed.
+| Version =    1.000 Date = 02/28/25 Time = 08:16:46
+
+| Note: 1-4 EEL scale factors are being read from the topology file.
+
+| Note: 1-4 VDW scale factors are being read from the topology file.
+| Duplicated    0 dihedrals
+
+| Duplicated    0 dihedrals
+
+--------------------------------------------------------------------------------
+   1.  RESOURCE   USE: 
+--------------------------------------------------------------------------------
+
+ getting box info from netcdf restart file
+ NATOM  =   64645 NTYPES =      33 NBONH =   46341 MBONA  =   18395
+ NTHETH =    9475 MTHETA =    5859 NPHIH =   19325 MPHIA  =   18379
+ NHPARM =       0 NPARM  =       0 NNB   =  144820 NRES   =   14585
+ NBONA  =   18395 NTHETA =    5859 NPHIA =   18379 NUMBND =      98
+ NUMANG =     214 NPTRA  =     208 NATYP =      56 NPHB   =       0
+ IFBOX  =       2 NMXRS  =      67 IFCAP =       0 NEXTRA =   14060
+ NCOPY  =       0
+
+
+| Coordinate Index Table dimensions:    16   16   16
+| Direct force subcell size =     5.3692    5.3692    5.3692
+
+     BOX TYPE: TRUNCATED OCTAHEDRON
+
+--------------------------------------------------------------------------------
+   2.  CONTROL  DATA  FOR  THE  RUN
+--------------------------------------------------------------------------------
+
+default_name                                                                    
+
+General flags:
+     imin    =       0, nmropt  =       1
+
+Nature and format of input:
+     ntx     =       1, irest   =       0, ntrx    =       1
+
+Nature and format of output:
+     ntxo    =       2, ntpr    =    1000, ntrx    =       1, ntwr    =   10000
+     iwrap   =       0, ntwx    =   10000, ntwv    =       0, ntwe    =       0
+     ioutfm  =       1, ntwprt  =       0, idecomp =       0, rbornstat=      0
+
+Potential function:
+     ntf     =       1, ntb     =       2, igb     =       0, nsnb    =      25
+     ipol    =       0, gbsa    =       0, iesp    =       0
+     dielc   =   1.00000, cut     =   8.00000, intdiel =   1.00000
+
+Frozen or restrained atoms:
+     ibelly  =       0, ntr     =       0
+
+Molecular dynamics:
+     nstlim  =     20000, nscm    =      1000, nrespa  =         1
+     t       =   0.00000, dt      =   0.00100, vlimit  =  -1.00000
+
+Langevin dynamics temperature regulation:
+     ig      =  970792
+     temp0   = 310.00000, tempi   =   0.00000, gamma_ln=   2.00000
+
+Pressure regulation:
+     ntp     =       1
+     pres0   =   1.00000, comp    =  44.60000, taup    =   0.50000
+     Monte-Carlo Barostat:
+     mcbarint  =     100
+
+NMR refinement options:
+     iscale  =       0, noeskp  =       1, ipnlty  =       1, mxsub   =       1
+     scalm   = 100.00000, pencut  =   0.10000, tausw   =   0.10000
+
+| Intermolecular bonds treatment:
+|     no_intermolecular_bonds =       1
+
+| Energy averages sample interval:
+|     ene_avg_sampling =    1000
+
+Extra-points options:
+     frameon =       1, chngmask=       1
+
+Ewald parameters:
+     verbose =       0, ew_type =       0, nbflag  =       1, use_pme =       1
+     vdwmeth =       1, eedmeth =       1, netfrc  =       1
+     Box X =   85.908   Box Y =   85.908   Box Z =   85.908
+     Alpha =  109.471   Beta  =  109.471   Gamma =  109.471
+     NFFT1 =   96       NFFT2 =   96       NFFT3 =   96
+     Cutoff=    8.000   Tol   =0.100E-04
+     Ewald Coefficient =  0.34864
+     Interpolation order =    4
+|      EXTRA_PTS, trim_bonds: num bonds BEFORE trim = 46341     0
+|      EXTRA_PTS, trim_bonds: num bonds AFTER  trim = 46341     0
+|      EXTRA_PTS, trim_bonds: num bonds BEFORE trim = 18395     0
+|      EXTRA_PTS, trim_bonds: num bonds AFTER  trim =  4335     0
+|      EXTRA_PTS, trim_theta: num angle BEFORE trim =  9475     0
+|      EXTRA_PTS, trim_theta: num angle AFTER  trim =  9475     0
+|      EXTRA_PTS, trim_theta: num angle BEFORE trim =  5859     0
+|      EXTRA_PTS, trim_theta: num angle AFTER  trim =  5859     0
+|      EXTRA_PTS, trim_phi:  num diheds BEFORE trim = 19325     0
+|      EXTRA_PTS, trim_phi:  num diheds AFTER  trim = 19325     0
+|      EXTRA_PTS, trim_phi:  num diheds BEFORE trim = 18379     0
+|      EXTRA_PTS, trim_phi:  num diheds AFTER  trim = 18379     0
+| MONTE CARLO BAROSTAT IMPORTANT NOTE:
+|   The Monte-Carlo barostat does not require the virial to adjust the system volume.
+|   Since it is an expensive calculation, it is skipped for efficiency. A side-effect
+|   is that the reported pressure is always 0 because it is not calculated.
+
+--------------------------------------------------------------------------------
+   3.  ATOMIC COORDINATES AND VELOCITIES
+--------------------------------------------------------------------------------
+
+default_name                                                                    
+ begin time read from input coords =    20.000 ps
+
+
+
+           Begin reading energy term weight changes/NMR restraints
+ WEIGHT CHANGES:
+                         ** No weight changes given **
+
+ RESTRAINTS:
+                          ** No restraint defined **
+
+                  Done reading weight changes/NMR restraints
+
+
+ 
+ Number of triangulated 3-point waters found:    14060
+
+     Sum of charges from parm topology file =  -0.00092307
+     Forcing neutrality...
+
+| Dynamic Memory, Types Used:
+| Reals             2652988
+| Integers          5071857
+
+| Nonbonded Pairs Initial Allocation:    10797331
+
+| GPU memory information (estimate):
+| KB of GPU memory in use:    435760
+| KB of CPU memory in use:    112090
+
+--------------------------------------------------------------------------------
+   4.  RESULTS
+--------------------------------------------------------------------------------
+
+
+ NSTEP =        0   TIME(PS) =       0.000  TEMP(K) =     0.00  PRESS =     0.0
+ Etot   =   -227570.7839  EKtot   =         0.0000  EPtot      =   -227570.7839
+ BOND   =     65982.1248  ANGLE   =      4423.0014  DIHED      =      3002.5819
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       418.0628
+ 1-4 NB =      1926.7532  1-4 EEL =     19666.3318  VDWAALS    =     54566.5333
+ EELEC  =   -377556.1731  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    488062.5721
+                                                    Density    =         1.0670
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =     1000   TIME(PS) =       1.000  TEMP(K) =   288.90  PRESS =     0.0
+ Etot   =   -188627.6961  EKtot   =     43561.2812  EPtot      =   -232188.9773
+ BOND   =     65766.4753  ANGLE   =      4301.3905  DIHED      =      2956.8972
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       424.7008
+ 1-4 NB =      1869.1252  1-4 EEL =     19688.1198  VDWAALS    =     55930.8214
+ EELEC  =   -383126.5075  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    487233.2354
+                                                    Density    =         1.0688
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =     2000   TIME(PS) =       2.000  TEMP(K) =   304.41  PRESS =     0.0
+ Etot   =   -182819.3235  EKtot   =     45899.6094  EPtot      =   -228718.9328
+ BOND   =     65864.0126  ANGLE   =      4358.1658  DIHED      =      3022.8618
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       425.1101
+ 1-4 NB =      1895.3723  1-4 EEL =     19550.9097  VDWAALS    =     54963.3634
+ EELEC  =   -378798.7286  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    487233.2354
+                                                    Density    =         1.0688
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =     3000   TIME(PS) =       3.000  TEMP(K) =   309.40  PRESS =     0.0
+ Etot   =   -181510.5370  EKtot   =     46652.4453  EPtot      =   -228162.9823
+ BOND   =     65840.3143  ANGLE   =      4460.2142  DIHED      =      3057.7770
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       433.9832
+ 1-4 NB =      1870.5399  1-4 EEL =     19586.5715  VDWAALS    =     54955.5039
+ EELEC  =   -378367.8863  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    486821.3986
+                                                    Density    =         1.0697
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =     4000   TIME(PS) =       4.000  TEMP(K) =   311.32  PRESS =     0.0
+ Etot   =   -181247.9307  EKtot   =     46941.8633  EPtot      =   -228189.7940
+ BOND   =     66097.9870  ANGLE   =      4435.5245  DIHED      =      3071.8742
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       430.1693
+ 1-4 NB =      1951.6903  1-4 EEL =     19726.9205  VDWAALS    =     54649.6725
+ EELEC  =   -378553.6324  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    486834.2366
+                                                    Density    =         1.0697
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =     5000   TIME(PS) =       5.000  TEMP(K) =   310.54  PRESS =     0.0
+ Etot   =   -180793.7983  EKtot   =     46824.1133  EPtot      =   -227617.9116
+ BOND   =     65804.7592  ANGLE   =      4546.0451  DIHED      =      3075.5441
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       428.5409
+ 1-4 NB =      1914.7797  1-4 EEL =     19630.6956  VDWAALS    =     55086.8122
+ EELEC  =   -378105.0882  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    486448.2106
+                                                    Density    =         1.0705
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =     6000   TIME(PS) =       6.000  TEMP(K) =   308.25  PRESS =     0.0
+ Etot   =   -181252.5440  EKtot   =     46479.4219  EPtot      =   -227731.9659
+ BOND   =     65710.8455  ANGLE   =      4488.0042  DIHED      =      3092.3077
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       421.6164
+ 1-4 NB =      1878.1804  1-4 EEL =     19621.0797  VDWAALS    =     54481.7096
+ EELEC  =   -377425.7093  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    486307.2142
+                                                    Density    =         1.0708
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =     7000   TIME(PS) =       7.000  TEMP(K) =   309.32  PRESS =     0.0
+ Etot   =   -181138.4093  EKtot   =     46639.9023  EPtot      =   -227778.3117
+ BOND   =     65520.0425  ANGLE   =      4445.6519  DIHED      =      3042.4570
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       414.7883
+ 1-4 NB =      1932.7656  1-4 EEL =     19700.3643  VDWAALS    =     54927.1134
+ EELEC  =   -377761.4946  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    486307.2142
+                                                    Density    =         1.0708
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+ NSTEP =     8000   TIME(PS) =       8.000  TEMP(K) =   309.23  PRESS =     0.0
+ Etot   =   -181353.9743  EKtot   =     46626.9961  EPtot      =   -227980.9704
+ BOND   =     66097.4746  ANGLE   =      4473.1661  DIHED      =      3011.5871
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       422.1466
+ 1-4 NB =      1906.3869  1-4 EEL =     19625.9113  VDWAALS    =     54814.9310
+ EELEC  =   -378332.5741  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    486172.8006
+                                                    Density    =         1.0711
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =     9000   TIME(PS) =       9.000  TEMP(K) =   311.66  PRESS =     0.0
+ Etot   =   -181393.4975  EKtot   =     46993.5195  EPtot      =   -228387.0170
+ BOND   =     65626.2562  ANGLE   =      4539.7856  DIHED      =      3071.8435
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       435.9773
+ 1-4 NB =      1906.4987  1-4 EEL =     19667.0553  VDWAALS    =     54719.1183
+ EELEC  =   -378353.5518  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    485921.6846
+                                                    Density    =         1.0717
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =    10000   TIME(PS) =      10.000  TEMP(K) =   310.64  PRESS =     0.0
+ Etot   =   -181475.0667  EKtot   =     46839.5898  EPtot      =   -228314.6565
+ BOND   =     65949.8452  ANGLE   =      4465.3218  DIHED      =      3074.0021
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       419.9853
+ 1-4 NB =      1924.0901  1-4 EEL =     19677.1665  VDWAALS    =     55052.4641
+ EELEC  =   -378877.5315  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    485949.1013
+                                                    Density    =         1.0716
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =    11000   TIME(PS) =      11.000  TEMP(K) =   308.73  PRESS =     0.0
+ Etot   =   -181967.1863  EKtot   =     46551.9531  EPtot      =   -228519.1394
+ BOND   =     66261.5295  ANGLE   =      4466.2769  DIHED      =      3066.0080
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       436.9557
+ 1-4 NB =      1913.3575  1-4 EEL =     19668.5317  VDWAALS    =     54765.3031
+ EELEC  =   -379097.1019  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    485883.8762
+                                                    Density    =         1.0718
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+ NSTEP =    12000   TIME(PS) =      12.000  TEMP(K) =   311.16  PRESS =     0.0
+ Etot   =   -181362.0667  EKtot   =     46918.3789  EPtot      =   -228280.4456
+ BOND   =     65948.4107  ANGLE   =      4434.2215  DIHED      =      3042.6559
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       436.1094
+ 1-4 NB =      1937.3030  1-4 EEL =     19750.6694  VDWAALS    =     54875.9483
+ EELEC  =   -378705.7637  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    485634.0201
+                                                    Density    =         1.0723
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =    13000   TIME(PS) =      13.000  TEMP(K) =   308.57  PRESS =     0.0
+ Etot   =   -181915.6998  EKtot   =     46527.8594  EPtot      =   -228443.5592
+ BOND   =     66029.6456  ANGLE   =      4503.5865  DIHED      =      3006.8935
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       429.7667
+ 1-4 NB =      1870.7951  1-4 EEL =     19638.6624  VDWAALS    =     54760.6042
+ EELEC  =   -378683.5132  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    485956.5992
+                                                    Density    =         1.0716
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =    14000   TIME(PS) =      14.000  TEMP(K) =   310.58  PRESS =     0.0
+ Etot   =   -181193.5515  EKtot   =     46829.7188  EPtot      =   -228023.2702
+ BOND   =     66251.1977  ANGLE   =      4398.4665  DIHED      =      3055.7502
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       434.8547
+ 1-4 NB =      1911.1841  1-4 EEL =     19669.0236  VDWAALS    =     54341.0165
+ EELEC  =   -378084.7635  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    485902.9780
+                                                    Density    =         1.0717
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =    15000   TIME(PS) =      15.000  TEMP(K) =   310.30  PRESS =     0.0
+ Etot   =   -181743.1727  EKtot   =     46788.6953  EPtot      =   -228531.8680
+ BOND   =     66094.4580  ANGLE   =      4379.5790  DIHED      =      3045.0665
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       447.1739
+ 1-4 NB =      1908.2685  1-4 EEL =     19622.4307  VDWAALS    =     54351.7075
+ EELEC  =   -378380.5522  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    485767.1888
+                                                    Density    =         1.0720
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+| MC Barostat: Decreasing size of volume moves
+
+ NSTEP =    16000   TIME(PS) =      16.000  TEMP(K) =   308.80  PRESS =     0.0
+ Etot   =   -181927.0920  EKtot   =     46561.4492  EPtot      =   -228488.5412
+ BOND   =     65625.3076  ANGLE   =      4455.2221  DIHED      =      3017.9044
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       439.7367
+ 1-4 NB =      1921.5706  1-4 EEL =     19642.3904  VDWAALS    =     54604.8651
+ EELEC  =   -378195.5380  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    485767.1888
+                                                    Density    =         1.0720
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+ NSTEP =    17000   TIME(PS) =      17.000  TEMP(K) =   309.19  PRESS =     0.0
+ Etot   =   -181680.3431  EKtot   =     46620.5977  EPtot      =   -228300.9408
+ BOND   =     66021.2319  ANGLE   =      4471.7691  DIHED      =      3046.5337
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       424.2022
+ 1-4 NB =      1924.9582  1-4 EEL =     19655.0832  VDWAALS    =     54691.4308
+ EELEC  =   -378536.1498  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    484951.9384
+                                                    Density    =         1.0738
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+ NSTEP =    18000   TIME(PS) =      18.000  TEMP(K) =   310.66  PRESS =     0.0
+ Etot   =   -182005.9108  EKtot   =     46842.9297  EPtot      =   -228848.8405
+ BOND   =     65886.8365  ANGLE   =      4438.6581  DIHED      =      3029.2298
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       435.7719
+ 1-4 NB =      1914.9506  1-4 EEL =     19628.3957  VDWAALS    =     54877.6346
+ EELEC  =   -379060.3176  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    484587.0704
+                                                    Density    =         1.0746
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+ NSTEP =    19000   TIME(PS) =      19.000  TEMP(K) =   308.64  PRESS =     0.0
+ Etot   =   -181848.0445  EKtot   =     46537.2188  EPtot      =   -228385.2632
+ BOND   =     66135.8018  ANGLE   =      4380.5486  DIHED      =      3017.5820
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       426.5118
+ 1-4 NB =      1932.6449  1-4 EEL =     19587.6893  VDWAALS    =     55013.7631
+ EELEC  =   -378879.8047  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    484150.4319
+                                                    Density    =         1.0756
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+ NSTEP =    20000   TIME(PS) =      20.000  TEMP(K) =   311.67  PRESS =     0.0
+ Etot   =   -181469.4942  EKtot   =     46995.0938  EPtot      =   -228464.5879
+ BOND   =     66488.5533  ANGLE   =      4445.5498  DIHED      =      3085.4506
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       426.8786
+ 1-4 NB =      1897.2045  1-4 EEL =     19631.1160  VDWAALS    =     55104.8637
+ EELEC  =   -379544.2044  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    483761.5589
+                                                    Density    =         1.0765
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+      A V E R A G E S   O V E R      20 S T E P S
+
+
+ NSTEP =    20000   TIME(PS) =      20.000  TEMP(K) =   308.60  PRESS =     0.0
+ Etot   =   -181936.2669  EKtot   =     46531.6318  EPtot      =   -228467.8988
+ BOND   =     65951.0492  ANGLE   =      4444.3574  DIHED      =      3044.5113
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =       429.7490
+ 1-4 NB =      1909.0833  1-4 EEL =     19648.4393  VDWAALS    =     54848.4323
+ EELEC  =   -378743.5207  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =    485879.5591
+                                                    Density    =         1.0718
+ ------------------------------------------------------------------------------
+
+ NMR restraints: Bond =    0.000   Angle =     0.000   Torsion =     0.000
+===============================================================================
+
+      R M S  F L U C T U A T I O N S
+
+
+ NSTEP =    20000   TIME(PS) =      20.000  TEMP(K) =     4.79  PRESS =     0.0
+ Etot   =      1591.8827  EKtot   =       722.7746  EPtot      =       908.4847
+ BOND   =       236.5092  ANGLE   =        57.5280  DIHED      =        31.9188
+ UB     =         0.0000  IMP     =         0.0000  CMAP       =         7.6028
+ 1-4 NB =        22.6907  1-4 EEL =        46.3875  VDWAALS    =       330.9249
+ EELEC  =      1109.8955  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =       903.9898
+                                                    Density    =         0.0020
+ ------------------------------------------------------------------------------
+
+
+ NMR restraints on final step:
+
+| MC Barostat:        200 volume changes attempted.
+| MC Barostat:         35 changes successful ( 17.50%)
+ ------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+   5.  TIMINGS
+--------------------------------------------------------------------------------
+
+|  NonSetup CPU Time in Major Routines:
+|
+|     Routine           Sec        %
+|     ------------------------------
+|     Nonbond           3.67    8.97
+|     Bond              0.00    0.00
+|     Angle             0.00    0.00
+|     Dihedral          0.00    0.00
+|     Shake             0.00    0.00
+|     RunMD            36.86   89.96
+|     Other             0.44    1.07
+|     ------------------------------
+|     Total            40.97
+
+|  PME Nonbond Pairlist CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     Set Up Cit           0.00    0.00
+|     Build List           0.00    0.00
+|     ---------------------------------
+|     Total                0.00    0.00
+
+|  PME Direct Force CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     NonBonded Calc       0.00    0.00
+|     Exclude Masked       0.00    0.00
+|     Other                0.03    0.07
+|     ---------------------------------
+|     Total                0.03    0.07
+
+|  PME Reciprocal Force CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     1D bspline           0.00    0.00
+|     Grid Charges         0.00    0.00
+|     Scalar Sum           0.00    0.00
+|     Gradient Sum         0.00    0.00
+|     FFT                  0.00    0.00
+|     ---------------------------------
+|     Total                0.00    0.00
+
+|  Final Performance Info:
+|     -----------------------------------------------------
+|     Average timings for last   20000 steps:
+|     Elapsed(s) =      40.96 Per Step(ms) =       2.05
+|         ns/day =      42.19   seconds/ns =    2048.06
+|
+|     Average timings for all steps:
+|     Elapsed(s) =      40.96 Per Step(ms) =       2.05
+|         ns/day =      42.19   seconds/ns =    2048.06
+|     -----------------------------------------------------
+
+|  Setup CPU time:            0.75 seconds
+|  NonSetup CPU time:        40.97 seconds
+|  Total CPU time:           41.72 seconds     0.01 hours
+
+|  Setup wall time:           1    seconds
+|  NonSetup wall time:       41    seconds
+|  Total wall time:          42    seconds     0.01 hours
