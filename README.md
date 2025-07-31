@@ -2,7 +2,7 @@
 This repo contains the scripts and data for Structure-Guided Expansion Strategy Unveils Potent Allosteric SHP2 Inhibitors with Synergistic Efficacy Against AML through MCL-1 Co-Targeting.
 Eur. J. Med. Chem. 2025, 298, 117988. https://doi.org/10.1016/j.ejmech.2025.117988.
 
-Each of the 5 directories contain the code and data of 1 receptor-ligand complex (excluding trajectories). If one were to rerun them, the overall workflow is 
+Each of the 5 directories contains the code and data of 1 receptor-ligand complex (excluding trajectories). If one were to rerun them, the overall workflow is 
 
 1.preparing and creating the system
 scripts to use:
